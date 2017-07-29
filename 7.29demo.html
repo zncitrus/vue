@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>VUE介绍</title>
+		<style>
+			h4{color:red}
+		</style>
+	</head>
+
+	<body>
+		<h2>VUE介绍</h2>
+		<h3>
+			Vue.js 是一套构建用户界面的渐进式框架。<br>
+			Vue 的核心库只关注视图层<br>
+			当与单文件组件和 Vue 生态系统支持的库结合使用时，Vue 也完全能够为复杂的单页应用程序提供驱动。
+		</h3>
+		<h4>一.声明式渲染</h4>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：Vue.js 的核心是一个允许采用简洁的模板语法来声明式的将数据渲染进 DOM,所有的元素都是响应式的。
+        -->
+
+		<div id="app">
+			<b>1:</b> {{ message }}
+		</div>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：v-bind 属性被称为指令,其作用是：将这个元素节点的 title 属性和 Vue 实例的 message 属性保持一致
+        -->
+
+		<div id="app-2">
+			<b>2:</b>
+			<span v-bind:title="message">
+		    看我title是小狗！
+		  </span>
+		</div>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：练习
+        -->
+
+		<div id="app-demo1">
+			<b>3:</b>
+			<input type="input" v-bind:placeholder="message">
+		</div>
+		<h4>二.条件与循环</h4>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：v-if用来控制切换一个元素的显示,我们不仅可以绑定 DOM 文本到数据，也可以绑定 DOM 结构到数据。而且，Vue 也提供一个强大的过渡效果系统，可以在 Vue 插入/更新/删除元素时自动应用过渡效果。
+        -->
+		<div id="app-3">
+		  <p v-if="seen">app3.seen = true------瞅我干啥</p>
+		</div>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：v-for 指令可以绑定数组的数据来渲染一个项目列表
+        -->
+        <div id="app-4">
+		  <ol>
+		    <li v-for="todo in todos">
+		      {{ todo.text }}
+		    </li>
+		  </ol>
+		</div>
+		<h4>处理用户输入</h4>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：v-on 指令绑定一个事件监听器，通过它调用我们 Vue 实例中定义的方法
+        -->
+        <div id="app-5">
+          <p>{{ message }}</p>
+		  <button v-on:click="reverseMessage">点我瞅瞅</button>
+		</div>
+		<div id="app-6">
+		  <p>{{ message }}</p>
+		  <input v-model="message">
+		</div>
+		<h4>组件化应用构建</h4>
+		<!--
+        	作者：1754203264@qq.com
+        	时间：2017-07-29
+        	描述：在 Vue 里，一个组件本质上是一个拥有预定义选项的一个 Vue 实例
+        -->
+		<div id="app-7">
+		  <ol>
+		    <!--
+		      现在我们为每个 todo-item 提供待办项对象
+		      待办项对象是变量，即其内容可以是动态的。
+		      我们也需要为每个组件提供一个“key”，晚些时候我们会做个解释。
+		    -->
+		    <todo-item
+		      v-for="item in groceryList"
+		      v-bind:todo="item"
+		      v-bind:key="item.id">
+		    </todo-item>
+		  </ol>
+		</div>	
+	</body>
+	<script src="js/vue.min.js"></script>
+	<script>
+		//teach1
+		var app = new Vue({
+			el: '#app',
+			data: {
+				message: 'Hello Word!'
+			}
+		});
+		//teach2
+		var app2 = new Vue({
+			el: '#app-2',
+			data: {
+				message: '你于'+ new Date() +'正式成为我旗下小哈巴狗，继续努力哦！'
+			}
+		});
+		//demo1
+		var appDemo1 = new Vue({
+			el: '#app-demo1',
+			data: {
+				message: '请输入您老婆手机号我来撩'
+			}
+		});
+		//teach3
+		var app3 = new Vue({
+		  el: '#app-3',
+		  data: {
+		    seen: true
+		  }
+		});
+		//teach4
+		var app4 = new Vue({
+		  el: '#app-4',
+		  data: {
+		    todos: [
+		      { text: '排排坐' },
+		      { text: '吃果果' },
+		      { text: '你一个' }
+		    ]
+		  }
+		});
+		app4.todos.push({ text: '我八个' });
+		//teach5
+		var app5 = new Vue({
+		  el: '#app-5',
+		  data: {
+		    message: '静静是谁！'
+		  },
+		  methods: {
+		    reverseMessage: function () {
+		      this.message = this.message.split('').reverse().join('');
+		      alert('you are my dog!');
+		    }
+		  }
+		});
+		//注意在 reverseMessage 方法中，我们更新了应用的状态，但没有触碰 DOM——所有的 DOM 操作都由 Vue 来处理，你编写的代码不需要关注底层逻辑。
+		//teach6
+		var app6 = new Vue({
+		  el: '#app-6',
+		  data: {
+		    message: 'Hello my dog!'
+		  }
+		});
+		//teach7
+		Vue.component('todo-item', {
+		  props: ['todo'],
+		  template: '<li>{{ todo.text }}</li>'
+		})
+		var app7 = new Vue({
+		  el: '#app-7',
+		  data: {
+		    groceryList: [
+		      { id: 0, text: '鸡腿' },
+		      { id: 1, text: '鸭脖' },
+		      { id: 2, text: '小龙虾' }
+		    ]
+		  }
+		})
+	</script>
+
+</html>
